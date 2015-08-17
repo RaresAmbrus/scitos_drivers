@@ -319,7 +319,17 @@ float PTU46::GetPosition (char type) {
 
     buffer[len] = '\0';
 
-    return strtod (&buffer[2],NULL) * GetResolution(type);
+    float val = strtod (&buffer[2],NULL) * GetResolution(type);
+    if (type == PTU46_PAN){
+	    double pan_offset = -0.1041213795542717;
+	    val -= pan_offset;
+    }
+    if (type == PTU46_TILT){
+	    double tilt_offset = 0.2791530191898346;
+	    val -= tilt_offset;
+    }
+
+    return val; 
 }
 
 void PTU46::SetCheckLimits(bool val) {
@@ -341,6 +351,16 @@ void PTU46::SetCheckLimits(bool val) {
 
 // set position in radians
 bool PTU46::SetPosition (char type, float pos, bool Block) {
+
+    if (type == PTU46_PAN){
+	    double pan_offset = -0.1041213795542717;
+	    pos += pan_offset;
+    }
+    if (type == PTU46_TILT){
+	    double tilt_offset = 0.2791530191898346;
+	    pos += tilt_offset;
+    }
+
     boost::mutex::scoped_lock scoped_lock(io_mutex);
     if (fd < 0)
         return false;

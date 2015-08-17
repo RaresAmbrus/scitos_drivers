@@ -265,6 +265,11 @@ void PTU46_Node::spinOnce() {
     double panspeed  = m_pantilt->GetSpeed(PTU46_PAN);
     double tiltspeed = m_pantilt->GetSpeed(PTU46_TILT);
 
+    //double pan_offset = -0.1041213795542717;
+    //double tilt_offset = 0.2791530191898346;
+    //pan -= pan_offset;
+    //tilt -= tilt_offset;
+
     // Publish Position & Speed
     sensor_msgs::JointState joint_state;
     joint_state.header.stamp = ros::Time::now();
